@@ -83,3 +83,54 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.card {
+    margin-bottom: 1.5rem;
+}
+
+.btn-outline-secondary {
+    margin-right: 0.5rem;
+}
+
+@media (max-width: 767px) {
+    .table thead {
+        display: none;
+    }
+
+    .table tbody td {
+        display: block;
+        width: 100%;
+        text-align: right;
+        border: none;
+        border-bottom: 1px solid #dee2e6;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .table tbody td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 50%;
+        padding-left: 15px;
+        font-weight: bold;
+        text-align: left;
+        background-color: #f8f9fa;
+        border-right: 1px solid #dee2e6;
+    }
+
+    .table tbody tr:last-child td {
+        border-bottom: 0;
+    }
+}
+</style>

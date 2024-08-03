@@ -82,7 +82,10 @@ const router = new Router({
                     const quizId = to.params.id;
                     const quiz = await api.get_quiz_by_id(quizId);
                     const userId = localStorage.getItem('userId');
+                    const user = await api.get_user_by_id(userId);
                     if (quiz.created_by === userId) {
+                        next();
+                    } else if (user.role === 'admin'){
                         next();
                     } else {
                         next('/quizzes'); // Redirect to quizzes page if not authorized
