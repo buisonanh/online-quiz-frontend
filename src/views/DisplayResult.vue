@@ -32,42 +32,43 @@
                     </div>
                 </div>
             </div>
-            <router-link to="/quizzes" class="btn btn-dark w-100">Back to Quizzes</router-link>
-        </div>
+            <router-link :to="`/leaderboard/${quiz._id}`" class="btn btn-dark w-100">To Leaderboard</router-link>
+            <router-link to="/quizzes" class="btn btn-outline w-100 mt-2">Back to Quizzes</router-link>
+        </div>    
     </div>
-    </template>
-    
-    <script>
-    import { api } from '../api';
-    
-    export default {
-        name: 'DisplayResult',
-        data() {
-            return {
-                questions: [],
-                answers: {},
-                score: 0
-            };
-        },
-        async created() {
-            const attemptId = this.$route.params.id;
-            const attempt = await api.get_attempt_by_id(attemptId);
-            this.answers = attempt.answers.reduce((acc, answer) => {
-                acc[answer.question_id] = answer.selected_option;
-                return acc;
-            }, {});
-            const quiz = await api.get_quiz_by_id(attempt.quiz_id);
-            this.questions = await api.get_all_questions_by_quiz_id(attempt.quiz_id);
-    
-            // Calculate the score
-            const totalQuestions = this.questions.length;
-            const correctAnswers = this.questions.filter(
-                question => question.options.some(
-                    option => option.is_correct && option.option_text === this.answers[question._id]
-                )
-            ).length;
-            this.score = (correctAnswers / totalQuestions) * 100;
-        }
-    };
-    </script>
-    
+</template>
+
+<script>
+import { api } from '../api';
+
+export default {
+    name: 'DisplayResult',
+    data() {
+        return {
+            questions: [],
+            answers: {},
+            score: 0,
+            quiz: {}
+        };
+    },
+    async created() {
+        const attemptId = this.$route.params.id;
+        const attempt = await api.get_attempt_by_id(attemptId);
+        this.answers = attempt.answers.reduce((acc, answer) => {
+            acc[answer.question_id] = answer.selected_option;
+            return acc;
+        }, {});
+        this.quiz = await api.get_quiz_by_id(attempt.quiz_id);
+        this.questions = await api.get_all_questions_by_quiz_id(attempt.quiz_id);
+
+        // Calculate the score
+        const totalQuestions = this.questions.length;
+        const correctAnswers = this.questions.filter(
+            question => question.options.some(
+                option => option.is_correct && option.option_text === this.answers[question._id]
+            )
+        ).length;
+        this.score = (correctAnswers / totalQuestions) * 100;
+    }
+};
+</script>

@@ -4,6 +4,10 @@
             <h2 class="mb-4 text-center">Register</h2>
             <form @submit.prevent="register">
             <div class="form-group mb-3">
+                <label for="password">Name</label>
+                <input type="text" id="name" v-model="name" class="form-control" required>
+            </div>
+            <div class="form-group mb-3">
                 <label for="email">Email</label>
                 <input type="email" id="email" v-model="email" class="form-control" required>
             </div>
@@ -28,14 +32,16 @@ export default {
     return {
         email: '',
         password: '',
+        name: '',
         errorMessage: ''
     }
     },
     methods: {
     async register() {
         try {
-        const user = { email: this.email, password: this.password };
+        const user = { email: this.email, password: this.password, name: this.name };
         await api.register(user);
+        this.flash('Registration successful. Please login again', 'success');
         this.$router.push('/login');
         } catch (error) {
         console.error('Registration error:', error);

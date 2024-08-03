@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const backendUrl = "https://online-quiz-vx7n.onrender.com"
+const backendUrl = "http://localhost:3000"
 
 
 const register = async (user) => {
@@ -133,6 +133,24 @@ const delete_attempt_by_id = async (id) => {
     }
 }
 
+const get_all_attempts = async () => {
+    try {
+        const response = await axios.get(`${backendUrl}/attempts`)
+        return response.data
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+const get_attempts_by_quiz_id = async (id) => {
+    try {
+        const response = await axios.get(`${backendUrl}/attempts/quiz/${id}`)
+        return response.data
+    } catch (error) {
+        console.error(error)
+    }
+}
+
 const create_quiz = async (quiz) => {
     try {
         const response = await axios.post(`${backendUrl}/quizzes`, quiz, {
@@ -158,6 +176,55 @@ const create_question = async (question) => {
     }
 }
 
+// Admin
+const get_all_users = async () => {
+    try {
+        const response = await axios.get(`${backendUrl}/admin/users`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('API get all users error:', error);
+        throw error;
+    }
+};
+
+const delete_user_by_id = async (id) => {
+    try {
+        const response = await axios.delete(`${backendUrl}/admin/users/${id}`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('API delete user error:', error);
+        throw error;
+    }
+};
+
+const get_user_by_id = async (id) => {
+    try {
+        const response = await axios.get(`${backendUrl}/admin/users/${id}`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('API get user by ID error:', error);
+        throw error;
+    }
+};
+
+const update_user = async (id, userData) => {
+    try {
+        const response = await axios.put(`${backendUrl}/admin/users/${id}`, userData, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('API update user error:', error);
+        throw error;
+    }
+};
+
 export const api = {
     login,
     register,
@@ -172,5 +239,11 @@ export const api = {
     get_attempt_by_id,
     delete_attempt_by_id,
     create_quiz,
-    create_question
+    create_question,
+    get_all_users,
+    delete_user_by_id,
+    get_user_by_id,
+    update_user,
+    get_all_attempts,
+    get_attempts_by_quiz_id
 }

@@ -10,7 +10,10 @@ import CreateQuiz from './views/CreateQuiz.vue'
 import CreateQuestions from './views/CreateQuestions.vue'
 import UpdateQuiz from './views/UpdateQuiz.vue'
 import DisplayResult from './views/DisplayResult.vue'
+import AdminUsers from './views/AdminUsers.vue'
+import UpdateUser from './views/UpdateUser.vue'
 import {api} from './api'
+import QuizLeaderBoard from './views/QuizLeaderBoard.vue'
 
 Vue.use(Router)
 
@@ -61,6 +64,11 @@ const router = new Router({
             meta: { requiresAuth: true }
         },
         {
+            path: '/leaderboard/:id',
+            component: QuizLeaderBoard,
+            meta: { requiresAuth: true }
+        },
+        {
             path: '/result/:id',
             component: DisplayResult,
             meta: { requiresAuth: true }
@@ -83,7 +91,45 @@ const router = new Router({
                     next('/quizzes'); // Redirect to quizzes page if an error occurs
                 }
             }
+        },
+        {
+            path: '/admin/users',
+            component: AdminUsers,
+            meta: { requiresAuth: true},
+            beforeEnter: async (to, from, next) => {
+                try {
+                    const userId = localStorage.getItem('userId');
+                    const user = await api.get_user_by_id(userId);
+                    if (user.role === 'admin') {
+                        next();
+                    } else {
+                        next('/quizzes'); // Redirect to quizzes page if not authorized
+                    }
+                } catch (error) {
+                    next('/quizzes'); // Redirect to quizzes page if an error occurs
+                }
+            }
+        },
+        {
+            path: '/admin/users/:id',
+            component: UpdateUser,
+            meta: { requiresAuth: true, requiresAdmin: true },
+            beforeEnter: async (to, from, next) => {
+                try {
+                    const userId = localStorage.getItem('userId');
+                    const user = await api.get_user_by_id(userId);
+                    if (user.role === 'admin') {
+                        next();
+                    } else {
+                        next('/quizzes'); // Redirect to quizzes page if not authorized
+                    }
+                } catch (error) {
+                    next('/quizzes'); // Redirect to quizzes page if an error occurs
+                }
+            }
         }
+        
+        
     ]
 })
 

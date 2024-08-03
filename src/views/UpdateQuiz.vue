@@ -1,20 +1,20 @@
 <template>
 <div class="container d-flex flex-column align-items-center my-5">
     <div class="card border shadow p-4" style="width: 40rem;">
-        <h2 class="mb-4 text-center">Update Quiz</h2>
-        <div class="form-group">
-            <label for="quizTitle">Title:</label>
-            <input type="text" id="quizTitle" class="form-control" v-model="quiz.title">
-        </div>
-        <div class="form-group mb-3">
-            <label for="quizDescription">Description:</label>
-            <input type="text" id="quizDescription" class="form-control" v-model="quiz.description">
-        </div>
-        
-        <div v-for="(question, index) in questions" :key="index" class="card mb-3">
-            <div class="card-body">
-            <question-form :question="question"></question-form>
-            <button class="btn btn-outline-danger mt-2" @click="removeQuestion(index)">Remove Question</button>
+    <h2 class="mb-4 text-center">Update Quiz</h2>
+    <div class="form-group">
+        <label for="quizTitle">Title:</label>
+        <input type="text" id="quizTitle" class="form-control" v-model="quiz.title">
+    </div>
+    <div class="form-group mb-3">
+        <label for="quizDescription">Description:</label>
+        <input type="text" id="quizDescription" class="form-control" v-model="quiz.description">
+    </div>
+    
+    <div v-for="(question, index) in questions" :key="index" class="card mb-3">
+        <div class="card-body">
+        <question-form :question="question"></question-form>
+        <button class="btn btn-outline-danger mt-2" @click="removeQuestion(index)">Remove Question</button>
         </div>
     </div>
     <button class="btn btn-secondary w-50 mb-2" @click="addQuestion">Add Question</button>
@@ -68,6 +68,10 @@ methods: {
             return;
         }
         question.quiz_id = quizId;
+        // Update the `is_correct` property of each option based on `correctIndex`
+        question.options.forEach((option, index) => {
+            option.is_correct = (index === question.correctIndex);
+        });
         if (question._id) {
             await api.update_question(question._id, question);
         } else {

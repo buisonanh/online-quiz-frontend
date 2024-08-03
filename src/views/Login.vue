@@ -38,12 +38,14 @@ methods: {
             const credentials = { email: this.email, password: this.password };
             const response = await api.login(credentials);
             if (response && response.token) {
-            localStorage.setItem('token', response.token);
-            localStorage.setItem('userId', response.userId);
-            this.flash('Login successful', 'success');
-            this.$router.push('/quizzes');
+                localStorage.setItem('token', response.token);
+                localStorage.setItem('userId', response.userId);
+                localStorage.setItem('role', response.role);
+                //this.flash(localStorage.getItem('role'))
+                this.flash('Login successful', 'success');
+                this.$router.push('/quizzes');
             } else {
-            this.errorMessage = 'Login failed: Invalid response from server';
+                this.errorMessage = 'Login failed: Invalid response from server';
             }
         } catch (error) {
             console.error('Login error:', error);

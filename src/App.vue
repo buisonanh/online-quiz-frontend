@@ -10,13 +10,18 @@
           </router-link>
           <router-link to="/attempts">
             <button class="btn btn-outline-light border-0 me-2" type="button">
-              My Attempts
+              Attempts
             </button>
           </router-link>
           <router-link to="/create-quiz">
             <button class="btn btn-outline-light border-0 me-2" type="button">
               Create Quiz
             </button>
+          </router-link>
+          <router-link v-if="isAdmin" to="/admin/users">
+              <button class="btn btn-outline-light border-0 me-2" type="button">
+                  Manage Users
+              </button>
           </router-link>
         </div>
         <div class="ms-auto">
@@ -40,11 +45,18 @@ export default {
   computed: {
     showNavbar() {
       return this.$route.path !== '/login' && this.$route.path !== '/register';
+    },
+    isAdmin() {
+      return localStorage.getItem('role') === 'admin';
     }
   },
   methods: {
     logout() {
       localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('role');
+      // Reload the page to reset the application state
+      window.location.reload();
       this.$router.push('/login');
     }
   }
