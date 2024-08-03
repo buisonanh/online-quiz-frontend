@@ -14,7 +14,7 @@
         <div v-for="(question, index) in questions" :key="index" class="card mb-3">
             <div class="card-body">
                 <question-form :question="question"></question-form>
-                <button class="btn btn-outline-danger mt-2" @click="removeQuestion(index)">Remove Question</button>
+                <button class="btn btn-outline-danger mt-2" @click="removeQuestion(index, question._id)">Remove Question</button>
             </div>
         </div>
         <button class="btn btn-secondary w-50 mb-2" @click="addQuestion">Add Question</button>
@@ -39,6 +39,7 @@ data() {
             description: ''
         },
         questions: [],
+        questionsToDelete: [],
         errorMessage: ''
     };
 },
@@ -56,13 +57,31 @@ methods: {
     addQuestion() {
         this.questions.push({ question_text: '', options: [{ option_text: '', is_correct: false }, { option_text: '', is_correct: false }], correctIndex: null });
     },
-    removeQuestion(index) {
+    removeQuestion(index, questionId) {
+        if (questionId) {
+            this.questionsToDelete.push(questionId);
+        }
         this.questions.splice(index, 1);
     },
     async updateQuiz() {
         try {
             const quizId = this.$route.params.id;
+            console.log("Updating quiz:", this.quiz);
             await api.update_quiz(quizId, this.quiz);
+
+            // Delete removed questions
+            for (const questionId of this.questionsToDelete) {
+                try {
+                    console.log("Deleting question:", questionId);
+                    await api.delete_question_by_id(questionId);
+                } catch (deleteError) {
+                    console.error('Error deleting question:', deleteError);
+                    this.errorMessage = "Failed to delete some questions.";
+                    return;
+                }
+            }
+
+            // Update remaining questions
             for (const question of this.questions) {
                 if (!this.validateQuestion(question)) {
                     return;
@@ -72,10 +91,18 @@ methods: {
                 question.options.forEach((option, index) => {
                     option.is_correct = (index === question.correctIndex);
                 });
-                if (question._id) {
-                    await api.update_question(question._id, question);
-                } else {
-                    await api.create_question(question);
+                try {
+                    if (question._id) {
+                        console.log("Updating question:", question);
+                        await api.update_question(question._id, question);
+                    } else {
+                        console.log("Creating question:", question);
+                        await api.create_question(question);
+                    }
+                } catch (questionError) {
+                    console.error('Error updating/creating question:', questionError);
+                    this.errorMessage = "Failed to update/create some questions.";
+                    return;
                 }
             }
             this.flash("Quiz updated successfully!", "success");

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const backendUrl = "https://online-quiz-vx7n.onrender.com"
+const backendUrl = "http://localhost:3000"
 
 
 const register = async (user) => {
@@ -85,6 +85,18 @@ const get_all_questions_by_quiz_id = async (id) => {
         return response.data
     } catch (error) {
         console.error(error)
+    }
+}
+
+const delete_question_by_id = async (id) => {
+    try {
+        const response = await axios.delete(`${backendUrl}/questions/question/${id}`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('API delete question error:', error);
+        throw error;
     }
 }
 
@@ -245,5 +257,6 @@ export const api = {
     get_user_by_id,
     update_user,
     get_all_attempts,
-    get_attempts_by_quiz_id
+    get_attempts_by_quiz_id,
+    delete_question_by_id
 }
