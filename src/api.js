@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const backendUrl = "http://localhost:3000"
+const backendUrl = "https://online-quiz-vx7n.onrender.com"
 
 
 const register = async (user) => {
