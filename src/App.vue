@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav v-if="showNavbar" class="navbar bg-dark border-bottom border-body">
-      <form class="container-fluid">
+      <div class="container-fluid">
         <div class="d-flex justify-content-start">
           <router-link to="/quizzes">
             <button class="btn btn-outline-light border-0 me-2" type="button">
@@ -19,17 +19,26 @@
             </button>
           </router-link>
           <router-link v-if="isAdmin" to="/admin/users">
-              <button class="btn btn-outline-light border-0 me-2" type="button">
-                  Manage Users
-              </button>
+            <button class="btn btn-outline-light border-0 me-2" type="button">
+              Manage Users
+            </button>
           </router-link>
         </div>
-        <div class="ms-auto">
-          <button class="btn btn-outline-light border-0 me-2" type="button" @click="logout">
-            Logout
+
+        <div class="ms-auto dropdown">
+          <button class="btn btn-outline-light border-0 dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ userName }}
           </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li>
+              <button class="dropdown-item" @click="editProfile">Edit Profile</button>
+            </li>
+            <li>
+              <button class="dropdown-item" @click="logout">Logout</button>
+            </li>
+          </ul>
         </div>
-      </form>
+      </div>
     </nav>
     <div class="four wide column">
       <flash-message></flash-message>
@@ -37,7 +46,6 @@
     <router-view></router-view>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -48,6 +56,12 @@ export default {
     },
     isAdmin() {
       return localStorage.getItem('role') === 'admin';
+    },
+    userName() {
+      return localStorage.getItem('name');
+    },
+    userId() {
+      return localStorage.getItem('userId');
     }
   },
   methods: {
@@ -55,9 +69,13 @@ export default {
       localStorage.removeItem('token');
       localStorage.removeItem('userId');
       localStorage.removeItem('role');
+      localStorage.removeItem('userName');
       // Reload the page to reset the application state
-      window.location.reload();
       this.$router.push('/login');
+      window.location.reload();
+    },
+    editProfile() {
+      this.$router.push(`/update-user/${this.userId}`);
     }
   }
 }

@@ -43,9 +43,9 @@ data() {
 async created() {
     const userId = this.$route.params.id;
     try {
-    this.user = await api.get_user_by_id(userId);
+        this.user = await api.get_user_by_id(userId);
     } catch (error) {
-    this.errorMessage = 'Failed to fetch user data.';
+        this.errorMessage = 'Failed to fetch user data.';
     }
 },
 methods: {
@@ -53,7 +53,13 @@ methods: {
     try {
         const userId = this.$route.params.id;
         await api.update_user(userId, this.user);
-        this.$router.push('/admin/users');
+        if (localStorage.getItem('role') === 'admin') {
+            this.$router.push('/admin/users');
+        } else {
+            localStorage.setItem('name', this.user.name);
+            this.$router.push('/quizzes');
+            window.location.reload();
+        }
     } catch (error) {
         this.errorMessage = 'Failed to update user.';
     }

@@ -16,7 +16,7 @@
                 <td>{{ user.name }}</td>
                 <td>{{ user.role }}</td>
                 <td>
-                    <router-link :to="`/admin/users/${user._id}`" class="btn btn-outline-secondary me-1">Edit</router-link>
+                    <router-link :to="`/update-user/${user._id}`" class="btn btn-outline-secondary me-1">Edit</router-link>
                     <button class="btn btn-outline-danger" @click="deleteUser(user._id)">Delete</button>
                 </td>
             </tr>

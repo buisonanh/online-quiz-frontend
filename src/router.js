@@ -114,14 +114,16 @@ const router = new Router({
             }
         },
         {
-            path: '/admin/users/:id',
+            path: '/update-user/:id',
             component: UpdateUser,
-            meta: { requiresAuth: true, requiresAdmin: true },
+            meta: { requiresAuth: true},
             beforeEnter: async (to, from, next) => {
                 try {
                     const userId = localStorage.getItem('userId');
                     const user = await api.get_user_by_id(userId);
                     if (user.role === 'admin') {
+                        next();
+                    } else if (userId === to.params.id) {
                         next();
                     } else {
                         next('/quizzes'); // Redirect to quizzes page if not authorized

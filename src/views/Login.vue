@@ -41,7 +41,8 @@ methods: {
                 localStorage.setItem('token', response.token);
                 localStorage.setItem('userId', response.userId);
                 localStorage.setItem('role', response.role);
-                //this.flash(localStorage.getItem('role'))
+                localStorage.setItem('name', response.name);
+                //this.flash(localStorage.getItem('name'))
                 this.flash('Login successful', 'success');
                 this.$router.push('/quizzes');
             } else {
