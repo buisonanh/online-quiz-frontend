@@ -1,10 +1,10 @@
 <template>
-    <div class="container my-5">
+    <div class="container my-5" data-bs-theme="dark">
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 col-lg-8">
-                <div class="card border shadow p-4">
-                    <h2 class="mb-4 text-center">User Attempts</h2>
-                    <table class="table table-striped">
+                <div class="card bg-dark border shadow-lg p-4">
+                    <h2 class="mb-4 text-center fw-bold">User Attempts</h2>
+                    <table class="table table-dark table-hover">
                         <thead>
                             <tr>
                                 <th>Quiz Title</th>
@@ -21,8 +21,12 @@
                                 <td>{{ getUserName(attempt.user_id) }}</td>
                                 <td>{{ new Date(attempt.completed_at).toLocaleString() }}</td>
                                 <td>
-                                    <router-link :to="`/result/${attempt._id}`" class="btn btn-outline-secondary me-1">View</router-link>
-                                    <button @click="deleteAttempt(attempt._id)" class="btn btn-outline-danger">Delete</button>
+                                    <router-link :to="`/result/${attempt._id}`" class="btn me-1">
+                                        <i class="bi-eye"></i>
+                                    </router-link>
+                                    <button @click="deleteAttempt(attempt._id)" class="btn btn-outline-danger">
+                                        <i class="bi-trash"></i>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -84,53 +88,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(0, 0, 0, 0.05);
-}
 
-.table thead th {
-    background-color: #f8f9fa;
-    border-bottom: 2px solid #dee2e6;
-}
-
-.card {
-    margin-bottom: 1.5rem;
-}
-
-.btn-outline-secondary {
-    margin-right: 0.5rem;
-}
-
-@media (max-width: 767px) {
-    .table thead {
-        display: none;
-    }
-
-    .table tbody td {
-        display: block;
-        width: 100%;
-        text-align: right;
-        border: none;
-        border-bottom: 1px solid #dee2e6;
-        position: relative;
-        padding-left: 50%;
-    }
-
-    .table tbody td::before {
-        content: attr(data-label);
-        position: absolute;
-        left: 0;
-        width: 50%;
-        padding-left: 15px;
-        font-weight: bold;
-        text-align: left;
-        background-color: #f8f9fa;
-        border-right: 1px solid #dee2e6;
-    }
-
-    .table tbody tr:last-child td {
-        border-bottom: 0;
-    }
-}
-</style>

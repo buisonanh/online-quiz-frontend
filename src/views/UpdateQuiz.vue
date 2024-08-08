@@ -1,14 +1,14 @@
 <template>
-<div class="container d-flex flex-column align-items-center my-5">
+<div class="container d-flex flex-column align-items-center my-5" data-bs-theme="dark">
     <div class="card border shadow p-4 w-100" style="max-width: 40rem;">
-        <h2 class="mb-4 text-center">Update Quiz</h2>
+        <h2 class="mb-4 text-center fw-bold">Update Quiz</h2>
         <div class="form-group">
             <label for="quizTitle">Title:</label>
-            <input type="text" id="quizTitle" class="form-control" v-model="quiz.title">
+            <input type="text" id="quizTitle" class="form-control" v-model="quiz.title" required="True">
         </div>
         <div class="form-group mb-3">
             <label for="quizDescription">Description:</label>
-            <input type="text" id="quizDescription" class="form-control" v-model="quiz.description">
+            <input type="text" id="quizDescription" class="form-control" v-model="quiz.description" required>
         </div>
         
         <div v-for="(question, index) in questions" :key="index" class="card mb-3">
@@ -18,7 +18,7 @@
             </div>
         </div>
         <button class="btn btn-secondary w-50 mb-2" @click="addQuestion">Add Question</button>
-        <button class="btn btn-dark w-100" @click="updateQuiz">Update Quiz</button>
+        <button class="btn btn-light w-100" @click="updateQuiz">Update Quiz</button>
         <div v-if="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
     </div>
 </div>

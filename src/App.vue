@@ -1,45 +1,91 @@
 <template>
   <div>
-    <nav v-if="showNavbar" class="navbar bg-dark border-bottom border-body">
+    <nav v-if="showNavbar" class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
       <div class="container-fluid">
-        <div class="d-flex justify-content-start">
-          <router-link to="/quizzes">
-            <button class="btn btn-outline-light border-0 me-2" type="button">
-              Quizzes
-            </button>
-          </router-link>
-          <router-link to="/attempts">
-            <button class="btn btn-outline-light border-0 me-2" type="button">
-              Attempts
-            </button>
-          </router-link>
-          <router-link to="/create-quiz">
-            <button class="btn btn-outline-light border-0 me-2" type="button">
-              Create Quiz
-            </button>
-          </router-link>
-          <router-link v-if="isAdmin" to="/admin/users">
-            <button class="btn btn-outline-light border-0 me-2" type="button">
-              Manage Users
-            </button>
-          </router-link>
-        </div>
+        <!-- Brand or Title -->
+        <img :src="logoSrc" alt="Logo" class="logo me-2">
+        <router-link to="/quizzes" class="navbar-brand text-light fw-bold">
+          QuizApp
+        </router-link>
 
-        <div class="ms-auto dropdown">
-          <button class="btn btn-outline-light border-0 dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ userName }}
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-            <li>
-              <button class="dropdown-item" @click="editProfile">Edit Profile</button>
+        <!-- Toggler for responsive behavior -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <router-link
+                to="/quizzes"
+                class="nav-link text-light fw-bold m-1"
+                active-class="active"
+              >
+                Quizzes
+              </router-link>
             </li>
-            <li>
-              <button class="dropdown-item" @click="logout">Logout</button>
+            <li class="nav-item">
+              <router-link
+                to="/attempts"
+                class="nav-link text-light fw-bold m-1"
+                active-class="active"
+              >
+                Attempts
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link
+                to="/create-quiz"
+                class="nav-link text-light fw-bold m-1"
+                active-class="active"
+              >
+                Create
+              </router-link>
+            </li>
+            <li class="nav-item" v-if="isAdmin">
+              <router-link
+                to="/admin/users"
+                class="nav-link text-light fw-bold m-1"
+                active-class="active"
+              >
+                Users
+              </router-link>
             </li>
           </ul>
+
+          <!-- User Dropdown -->
+          <div class="dropdown">
+            <button
+              class="btn btn-outline-light dropdown-toggle fw-bold m-1"
+              type="button"
+              id="userDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {{ userName }}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li>
+                <button class="dropdown-item" @click="editProfile">Edit Profile</button>
+              </li>
+              <li>
+                <button class="dropdown-item" @click="logout">Logout</button>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </nav>
+
     <div class="four wide column">
       <flash-message></flash-message>
     </div>
@@ -50,6 +96,11 @@
 <script>
 export default {
   name: 'App',
+  data() {
+    return {
+      logoSrc: require('@/assets/logo.png') // Ensure the correct path to your logo
+    };
+  },
   computed: {
     showNavbar() {
       return this.$route.path !== '/login' && this.$route.path !== '/register';
@@ -70,7 +121,6 @@ export default {
       localStorage.removeItem('userId');
       localStorage.removeItem('role');
       localStorage.removeItem('userName');
-      // Reload the page to reset the application state
       this.$router.push('/login');
       window.location.reload();
     },
@@ -80,3 +130,17 @@ export default {
   }
 }
 </script>
+
+<style>
+/* Highlight active nav-link */
+.nav-link.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.logo {
+  height: 20px; /* Adjust the height as needed */
+  width: auto; /* Maintains the aspect ratio */
+}
+
+</style>

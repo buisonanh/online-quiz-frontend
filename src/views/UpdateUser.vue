@@ -1,7 +1,7 @@
 <template>
-<div class="container d-flex flex-column align-items-center my-5">
+<div class="container d-flex flex-column align-items-center my-5" data-bs-theme="dark">
     <div class="card border shadow p-4" style="width: 40rem;">
-    <h2 class="mb-4 text-center">Update User</h2>
+    <h2 class="mb-4 text-center fw-bold">Edit Profile</h2>
     <form @submit.prevent="updateUser">
         <div class="form-group">
         <label for="userName">Name:</label>
@@ -12,13 +12,13 @@
         <input type="email" id="userEmail" class="form-control" v-model="user.email" required>
         </div>
         <div class="form-group">
-        <label for="userRole">Role:</label>
-        <select id="userRole" class="form-control" v-model="user.role" required>
+        <label  v-if="isAdmin" for="userRole">Role:</label>
+        <select v-if="isAdmin" id="userRole" class="form-control" v-model="user.role" required>
             <option value="user">User</option>
             <option value="admin">Admin</option>
         </select>
         </div>
-        <button type="submit" class="btn btn-dark w-100 mt-3">Update User</button>
+        <button type="submit" class="btn btn-light w-100 mt-3">Confirm</button>
         <div v-if="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
     </form>
     </div>
@@ -39,6 +39,11 @@ data() {
     },
     errorMessage: ''
     };
+},
+computed: {
+    isAdmin() {
+        return localStorage.getItem('role') === 'admin';
+    }
 },
 async created() {
     const userId = this.$route.params.id;

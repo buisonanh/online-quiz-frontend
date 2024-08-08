@@ -1,7 +1,7 @@
 <template>
-    <div class="container d-flex justify-content-center my-5">
+    <div class="container d-flex justify-content-center my-5" data-bs-theme="dark">
         <div class="card shadow p-4" style="width: 40rem;">
-            <h2 class="text-center mb-4">Quiz Results</h2>
+            <h2 class="text-center mb-4 fw-bold">Quiz Results</h2>
             <div class="alert alert-info text-center" role="alert">
                 Your Score: {{ score.toFixed(2) }}%
             </div>
@@ -32,8 +32,8 @@
                     </div>
                 </div>
             </div>
-            <router-link :to="`/leaderboard/${quiz._id}`" class="btn btn-dark w-100">To Leaderboard</router-link>
-            <router-link to="/quizzes" class="btn btn-outline w-100 mt-2">Back to Quizzes</router-link>
+            <router-link :to="`/leaderboard/${quiz._id}`" class="btn btn-light w-100 fw-bold">To Leaderboard</router-link>
+            <router-link to="/quizzes" class="btn btn-outline-light w-100 mt-2">Back to Quizzes</router-link>
         </div>    
     </div>
 </template>

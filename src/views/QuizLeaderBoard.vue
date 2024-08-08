@@ -1,11 +1,11 @@
 <template>
-    <div class="container my-5">
+    <div class="container my-5" data-bs-theme="dark">
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 col-lg-8">
                 <div class="card border shadow p-4">
-                    <h2 class="text-center mb-2">{{ quizTitle }}</h2>
+                    <h2 class="text-center mb-2 fw-bold">{{ quizTitle }}</h2>
                     <p class="text-center mb-4">Leaderboard</p>
-                    <table class="table table-striped">
+                    <table class="table table-dark table-striped">
                         <thead>
                             <tr>
                                 <th>Top</th>

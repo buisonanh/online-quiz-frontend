@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const backendUrl = "https://online-quiz-vx7n.onrender.com"
+const backendUrl = "http://localhost:3000"
 
 
 const register = async (user) => {
@@ -237,6 +237,17 @@ const update_user = async (id, userData) => {
     }
 };
 
+const search_quiz = async (keyword) => {
+    try {
+        const response = await axios.get(`${backendUrl}/quizzes/search`, {
+            params: { keyword }
+        });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 export const api = {
     login,
     register,
@@ -258,5 +269,6 @@ export const api = {
     update_user,
     get_all_attempts,
     get_attempts_by_quiz_id,
-    delete_question_by_id
+    delete_question_by_id,
+    search_quiz
 }

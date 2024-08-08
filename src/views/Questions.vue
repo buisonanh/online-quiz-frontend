@@ -1,22 +1,18 @@
 <template>
-    <div class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-8 col-lg-6 mb-4" v-for="question in questions" :key="question._id">
-                <div class="card border shadow-sm h-100">
-                    <div class="card-body d-flex flex-column align-items-center">
-                        <h5 class="card-title text-center">{{ question.question_text }}</h5>
-                        <div v-for="(option, index) in question.options" :key="index" class="w-100">
-                            <input type="radio" class="btn-check" :name="'option' + question._id" :id="option._id" :value="option.option_text" v-model="answers[question._id]" autocomplete="off">
-                            <label class="btn btn-outline-dark w-100 my-1" :for="option._id">{{ option.option_text }}</label>
-                        </div>
+    <div class="container d-flex justify-content-center my-5" data-bs-theme="dark">
+        <div class="card bg-black border-0 shadow p-4" style="width: 40rem;">
+            <div class="card border shadow mb-4" v-for="question in questions" :key="question._id">
+                <div class="card-body position-relative">
+                    <h5 class="card-title text-center">{{ question.question_text }}</h5>
+                    <div v-for="(option, index) in question.options" :key="index" class="w-100">
+                        <input type="radio" class="btn-check" :name="'option' + question._id" :id="option._id" :value="option.option_text" v-model="answers[question._id]" autocomplete="off">
+                        <label class="btn btn-outline-light w-100 my-1" :for="option._id">{{ option.option_text }}</label>
                     </div>
                 </div>
             </div>
-        </div>
-        <div v-if="errorMessage" class="alert alert-danger text-center mt-4">{{ errorMessage }}</div>
-        <div class="row justify-content-center mt-3">
-            <div class="col-12 col-md-6 col-lg-4">
-                <button class="btn btn-dark w-100" @click="submitAttempt">Submit</button>
+            <div v-if="errorMessage" class="alert alert-danger text-center mt-4">{{ errorMessage }}</div>
+            <div class="row justify-content-center mt-3">
+                <button class="btn btn-light w-50 fw-bold" @click="submitAttempt">Submit</button>
             </div>
         </div>
     </div>
@@ -69,13 +65,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.btn-check {
-    display: none;
-}
 
-.btn-check:checked + .btn-outline-dark {
-    background-color: #343a40;
-    color: white;
-}
-</style>

@@ -14,7 +14,7 @@
         </label>
     </div>
     </div>
-    <button class="btn btn-outline-secondary" @click="addOption">Add Option</button>
+    <button class="btn btn-secondary" @click="addOption">Add Option</button>
 </div>
 </template>
 

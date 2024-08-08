@@ -1,7 +1,7 @@
 <template>
-    <div class="container d-flex justify-content-center align-items-center my-5">
+    <div class="container d-flex justify-content-center align-items-center my-5" data-bs-theme="dark">
         <div class="card border shadow p-5" style="width: 50rem;">
-            <h2 class="mb-3 text-center">Create a New Quiz</h2>
+            <h2 class="mb-3 text-center fw-bold">Create a New Quiz</h2>
             <form @submit.prevent="createQuiz">
             <div class="form-group mb-3" >
                 <label for="title">Quiz Title</label>
@@ -11,7 +11,7 @@
                 <label for="description">Quiz Description</label>
                 <textarea id="description" v-model="description" class="form-control" required></textarea>
             </div>
-            <button type="submit" class="btn btn-dark w-100 mb-3">Create Quiz</button>
+            <button type="submit" class="btn btn-light w-100 mb-3">Create Quiz</button>
             <div v-if="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
             </form>
         </div>
