@@ -2,7 +2,7 @@
 <div class="container my-5" data-bs-theme="dark">
     <div class="row justify-content-center">
         <div class="col-12 col-md-10 col-lg-8">
-            <div class="card border shadow-lg p-4">
+            <div class="card bg-black border-0 shadow-lg p-4">
                 <h2 class="mb-4 text-center fw-bold">Create Questions</h2>
                 <div v-for="(question, index) in questions" :key="index" class="card mb-3">
                     <div class="card-body">

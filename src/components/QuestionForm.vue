@@ -1,18 +1,18 @@
 <template>
 <div>
     <div class="form-group">
-    <label for="questionText">Question Text:</label>
-    <input type="text" id="questionText" class="form-control" v-model="question.question_text">
+        <label for="questionText" class="fw-bold mb-1">Question Text:</label>
+        <input type="text" id="questionText" class="form-control mb-2" v-model="question.question_text">
     </div>
     <div v-for="(option, index) in question.options" :key="index" class="form-group">
-    <label :for="'option' + index">Option {{ index + 1 }}:</label>
-    <input type="text" :id="'option' + index" class="form-control" v-model="option.option_text">
-    <div class="form-check">
-        <input class="form-check-input" type="radio" :name="'correctOption' + question.question_text" :id="'correct' + index" v-model="question.correctIndex" :value="index">
-        <label class="form-check-label" :for="'correct' + index">
-        Correct
-        </label>
-    </div>
+        <label :for="'option' + index" class="mb-1">Option {{ index + 1 }}:</label>
+        <input type="text" :id="'option' + index" class="form-control mb-1" v-model="option.option_text">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" :name="'correctOption' + question.question_text" :id="'correct' + index" v-model="question.correctIndex" :value="index">
+            <label class="form-check-label mb-1" :for="'correct' + index">
+                Correct
+            </label>
+        </div>
     </div>
     <button class="btn btn-secondary" @click="addOption">Add Option</button>
 </div>
