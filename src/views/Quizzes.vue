@@ -1,5 +1,14 @@
 <template>
 <div class="container my-5" data-bs-theme="dark">
+    <!-- Custom Confirmation Modal -->
+    <confirmation-modal
+    v-if="showModal"
+    :visible="showModal"
+    message="Are you sure you want to delete this quiz?"
+    @confirm="confirmDelete"
+    @close="showModal = false"
+    />
+
     <!-- Search Bar -->
     <div class="row justify-content-center mb-4">
         <div class="col-12 col-md-8 col-lg-6.5">
@@ -31,7 +40,7 @@
                         <router-link :to="`/update-quiz/${quiz._id}`" class="btn btn-light border-0 me-1">
                             <i class="bi-pencil"></i>
                         </router-link>
-                        <button @click="deleteQuiz(quiz._id)" class="btn btn-danger border-0 me-1">
+                        <button @click="prepareDelete(quiz._id)" class="btn btn-danger border-0 me-1">
                             <i class="bi-trash"></i>
                         </button>
                     </div>
@@ -44,63 +53,77 @@
 
 <script>
 import { api } from '../api'
+import ConfirmationModal from '../components/ConfirmationModal.vue';
 
 export default {
-name: 'Quizzes',
-data() {
-return {
-    quizzes: [],
-    users: [],
-    userId: '',
-    searchKeyword: '' // Add a data property to hold the search keyword
-}
-},
-computed: {
-isAdmin() {
-    return localStorage.getItem('role') === 'admin';
-},
-filteredQuizzes() {
-    if (this.searchKeyword) {
-    return this.quizzes.filter(quiz => 
-        quiz.title.toLowerCase().includes(this.searchKeyword.toLowerCase()) ||
-        quiz.description.toLowerCase().includes(this.searchKeyword.toLowerCase())
-    );
+    name: 'Quizzes',
+    components: {
+        ConfirmationModal
+    },
+    data() {
+    return {
+            quizzes: [],
+            users: [],
+            userId: '',
+            searchKeyword: '',
+            showModal: false,
+            quizToDelete: null,
+        }
+    },
+    computed: {
+        isAdmin() {
+            return localStorage.getItem('role') === 'admin';
+        },
+        filteredQuizzes() {
+            if (this.searchKeyword) {
+                return this.quizzes.filter(quiz => 
+                    quiz.title.toLowerCase().includes(this.searchKeyword.toLowerCase()) ||
+                    quiz.description.toLowerCase().includes(this.searchKeyword.toLowerCase())
+                );
+            }
+            return this.quizzes;
+        }
+    },
+    async created() {
+        try {
+            this.userId = localStorage.getItem('userId');
+            this.quizzes = await api.get_all_quizzes();
+            this.users = await api.get_all_users(); // Fetch all users to get their names
+            console.log(this.quizzes); // Verify the structure of the fetched data
+        } catch (error) {
+            console.error('Error fetching quizzes or users:', error);
+        }
+    },
+    methods: {
+        getUserName(userId) {
+            const user = this.users.find(u => u._id === userId);
+            return user ? user.name : 'Unknown User';
+        },
+        prepareDelete(quizId) {
+            this.quizToDelete = quizId;
+            this.showModal = true;
+        },
+        async confirmDelete() {
+            if (this.quizToDelete) {
+                try {
+                    await api.delete_quiz(this.quizToDelete);
+                    this.quizzes = this.quizzes.filter(quiz => quiz._id !== this.quizToDelete);
+                    this.flash('Quiz deleted');
+                } catch (error) {
+                    console.error('Error deleting quiz:', error);
+                    this.flash('Failed to delete quiz', 'danger');
+                }
+            }
+            this.showModal = false;
+            this.quizToDelete = null;
+        },
+        async searchQuizzes() {
+            try {
+                this.quizzes = await api.search_quiz(this.searchKeyword);
+            } catch (error) {
+                console.error('Error searching quizzes:', error);
+            }
+        }
     }
-    return this.quizzes;
-}
-},
-async created() {
-try {
-    this.userId = localStorage.getItem('userId');
-    this.quizzes = await api.get_all_quizzes();
-    this.users = await api.get_all_users(); // Fetch all users to get their names
-    console.log(this.quizzes); // Verify the structure of the fetched data
-} catch (error) {
-    console.error('Error fetching quizzes or users:', error);
-}
-},
-methods: {
-getUserName(userId) {
-    const user = this.users.find(u => u._id === userId);
-    return user ? user.name : 'Unknown User';
-},
-async deleteQuiz(quizId) {
-    try {
-    await api.delete_quiz(quizId);
-    this.quizzes = this.quizzes.filter(quiz => quiz._id !== quizId);
-    this.flash('Quiz deleted');
-    } catch (error) {
-    console.error('Error deleting quiz:', error);
-    this.flash('Failed to delete quiz', 'danger');
-    }
-},
-async searchQuizzes() {
-    try {
-    this.quizzes = await api.search_quiz(this.searchKeyword);
-    } catch (error) {
-    console.error('Error searching quizzes:', error);
-    }
-}
-}
 }
 </script>

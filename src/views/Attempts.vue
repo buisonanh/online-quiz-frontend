@@ -1,5 +1,14 @@
 <template>
     <div class="container my-5" data-bs-theme="dark">
+        <!-- Custom Confirmation Modal -->
+        <confirmation-modal
+        v-if="showModal"
+        :visible="showModal"
+        message="Are you sure you want to delete this attempt?"
+        @confirm="confirmDelete"
+        @close="showModal = false"
+        />
+
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 col-lg-8">
                 <div class="card custom-card-bg border shadow-lg p-4">
@@ -22,7 +31,7 @@
                                     <router-link :to="`/result/${attempt._id}`" class="btn btn-outline-secondary border-0 me-1">
                                         <i class="bi-search"></i>
                                     </router-link>
-                                    <button @click="deleteAttempt(attempt._id)" class="btn btn-outline-danger border-0">
+                                    <button @click="prepareDelete(attempt._id)" class="btn btn-outline-danger border-0">
                                         <i class="bi-trash"></i>
                                     </button>
                                 </td>
@@ -38,15 +47,21 @@
 
 <script>
 import { api } from '../api'
+import ConfirmationModal from '../components/ConfirmationModal.vue';
 
 export default {
     name: 'Attempts',
+    components: {
+        ConfirmationModal
+    },
     data() {
         return {
             attempts: [],
             quizzes: [],
             users: [],
-            errorMessage: ''
+            errorMessage: '',
+            showModal: false,
+            attemptToDelete: null
         }
     },
     async created() {
@@ -72,16 +87,25 @@ export default {
             const user = this.users.find(u => u._id === userId);
             return user ? user.name : 'Unknown User';
         },
-        async deleteAttempt(attemptId) {
-            try {
-                await api.delete_attempt_by_id(attemptId);
-                this.attempts = this.attempts.filter(attempt => attempt._id !== attemptId);
-                this.flash("Attempt deleted");
-            } catch (error) {
-                console.error('Error deleting attempt:', error);
-                this.flash("Failed to delete attempt.", "danger");
+        prepareDelete(attemptId) {
+            this.attemptToDelete = attemptId;
+            this.showModal = true;
+        },
+        async confirmDelete() {
+            if (this.attemptToDelete) {
+                try {
+                    await api.delete_attempt_by_id(this.attemptToDelete); // Use this.attemptToDelete
+                    this.attempts = this.attempts.filter(attempt => attempt._id !== this.attemptToDelete);
+                    this.flash("Attempt deleted");
+                } catch (error) {
+                    console.error('Error deleting attempt:', error);
+                    this.flash("Failed to delete attempt.", "danger");
+                }
+                this.showModal = false;
+                this.attemptToDelete = null;
             }
         }
     }
+
 }
 </script>
