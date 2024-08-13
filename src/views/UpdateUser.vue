@@ -1,24 +1,24 @@
 <template>
 <div class="container d-flex flex-column align-items-center my-5" data-bs-theme="dark">
-    <div class="card border shadow p-4" style="width: 40rem;">
+    <div class="card custom-card-bg shadow p-4" style="width: 40rem;">
     <h2 class="mb-4 text-center fw-bold">Edit Profile</h2>
     <form @submit.prevent="updateUser">
-        <div class="form-group">
+        <div class="form-group fw-bold mb-2">
         <label for="userName">Name:</label>
-        <input type="text" id="userName" class="form-control" v-model="user.name" required>
+        <input type="text" id="userName" class="form-control custom-input" v-model="user.name" required>
         </div>
-        <div class="form-group">
+        <div class="form-group fw-bold mb-2">
         <label for="userEmail">Email:</label>
-        <input type="email" id="userEmail" class="form-control" v-model="user.email" required>
+        <input type="email" id="userEmail" class="form-control custom-input" v-model="user.email" required>
         </div>
-        <div class="form-group">
+        <div class="form-group fw-bold mb-2">
         <label  v-if="isAdmin" for="userRole">Role:</label>
-        <select v-if="isAdmin" id="userRole" class="form-control" v-model="user.role" required>
+        <select v-if="isAdmin" id="userRole" class="form-control custom-input" v-model="user.role" required>
             <option value="user">User</option>
             <option value="admin">Admin</option>
         </select>
         </div>
-        <button type="submit" class="btn btn-light w-100 mt-3">Confirm</button>
+        <button type="submit" class="btn btn-light fw-bold w-100 mt-3">Confirm</button>
         <div v-if="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
     </form>
     </div>

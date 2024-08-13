@@ -1,17 +1,17 @@
 <template>
     <div class="container d-flex justify-content-center align-items-center my-5" data-bs-theme="dark">
-        <div class="card border shadow p-5" style="width: 50rem;">
+        <div class="card custom-card-bg shadow p-5" style="width: 50rem;">
             <h2 class="mb-3 text-center fw-bold">Create a New Quiz</h2>
             <form @submit.prevent="createQuiz">
-            <div class="form-group mb-3" >
+            <div class="form-group fw-bold mb-3" >
                 <label for="title">Quiz Title</label>
-                <input type="text" id="title" v-model="title" class="form-control" required>
+                <input type="text" id="title" v-model="title" class="form-control custom-input" required>
             </div>
-            <div class="form-group mb-3">
+            <div class="form-group fw-bold mb-3">
                 <label for="description">Quiz Description</label>
-                <textarea id="description" v-model="description" class="form-control" required></textarea>
+                <textarea id="description" v-model="description" class="form-control custom-input" required></textarea>
             </div>
-            <button type="submit" class="btn btn-light w-100 mb-3">Create Quiz</button>
+            <button type="submit" class="btn custom-submit-btn w-100 mb-3">Create Quiz</button>
             <div v-if="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
             </form>
         </div>
@@ -33,6 +33,14 @@ export default {
     methods: {
         async createQuiz() {
             try {
+                // Check if the quiz title already exists
+                const quizzes = await api.get_all_quizzes();
+                for (const quiz of quizzes) {
+                    if (quiz.title === this.title) {
+                        this.errorMessage = 'A quiz with this title already exists';
+                        return;
+                    }
+                }
                 const quiz = { title: this.title, description: this.description, created_by: localStorage.getItem('userId') };
                 const createdQuiz = await api.create_quiz(quiz);
                 console.log('Created quiz:', createdQuiz);

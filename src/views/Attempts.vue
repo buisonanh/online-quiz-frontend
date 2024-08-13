@@ -2,14 +2,13 @@
     <div class="container my-5" data-bs-theme="dark">
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 col-lg-8">
-                <div class="card bg-dark border shadow-lg p-4">
-                    <h2 class="mb-4 text-center fw-bold">User Attempts</h2>
-                    <table class="table table-dark table-hover">
+                <div class="card custom-card-bg border shadow-lg p-4">
+                    <h2 class="mb-4 text-center fw-bold">My Attempts</h2>
+                    <table class="table table-light table-hover table-striped">
                         <thead>
                             <tr>
                                 <th>Quiz Title</th>
                                 <th>Score (%)</th>
-                                <th>Name</th>
                                 <th>Completed At</th>
                                 <th>Actions</th>
                             </tr>
@@ -18,13 +17,12 @@
                             <tr v-for="attempt in attempts" :key="attempt._id">
                                 <td>{{ getQuizTitle(attempt.quiz_id) }}</td>
                                 <td>{{ attempt.score.toFixed(2) }}</td>
-                                <td>{{ getUserName(attempt.user_id) }}</td>
                                 <td>{{ new Date(attempt.completed_at).toLocaleString() }}</td>
                                 <td>
-                                    <router-link :to="`/result/${attempt._id}`" class="btn me-1">
-                                        <i class="bi-eye"></i>
+                                    <router-link :to="`/result/${attempt._id}`" class="btn btn-outline-secondary border-0 me-1">
+                                        <i class="bi-search"></i>
                                     </router-link>
-                                    <button @click="deleteAttempt(attempt._id)" class="btn btn-outline-danger">
+                                    <button @click="deleteAttempt(attempt._id)" class="btn btn-outline-danger border-0">
                                         <i class="bi-trash"></i>
                                     </button>
                                 </td>
@@ -87,5 +85,3 @@ export default {
     }
 }
 </script>
-
-

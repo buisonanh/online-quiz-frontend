@@ -2,9 +2,9 @@
 <div class="container my-5" data-bs-theme="dark">
     <div class="row justify-content-center">
         <div class="col-12 col-md-10 col-lg-8">
-            <div class="card bg-dark border shadow-lg p-4">
+            <div class="card custom-card-bg border shadow-lg p-4">
                 <h2 class="text-center mb-4 text-light fw-bold">Manage Users</h2>
-                <table class="table table-dark table-striped">
+                <table class="table table-light table-striped">
                     <thead>
                         <tr>
                             <th>Email</th>

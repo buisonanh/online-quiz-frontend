@@ -2,10 +2,10 @@
     <div class="container my-5" data-bs-theme="dark">
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 col-lg-8">
-                <div class="card border shadow p-4">
+                <div class="card custom-card-bg shadow p-4">
                     <h2 class="text-center mb-2 fw-bold">{{ quizTitle }}</h2>
                     <p class="text-center mb-4">Leaderboard</p>
-                    <table class="table table-dark table-striped">
+                    <table class="table table-light table-striped">
                         <thead>
                             <tr>
                                 <th>Top</th>
@@ -43,7 +43,18 @@ export default {
     },
     computed: {
         sortedAttempts() {
-            return this.attempts.sort((a, b) => b.score - a.score);
+            // If user has 2 or more attetmpts, only take the highest score
+            const attempts = this.attempts.sort((a, b) => b.score - a.score);
+            const uniqueUsers = [];
+            attempts.forEach(attempt => {
+                if (!uniqueUsers.includes(attempt.user_id)) {
+                    uniqueUsers.push(attempt.user_id);
+                }
+            });
+            // Get the highest score for each user
+            return uniqueUsers.map(userId => {
+                return attempts.find(attempt => attempt.user_id === userId);
+            });
         }
     },
     async created() {
@@ -65,3 +76,11 @@ export default {
     }
 }
 </script>
+
+
+<style>
+.custom-card-bg {
+    background-color: #27187E !important;
+    color: #ffffff !important;
+}
+</style>

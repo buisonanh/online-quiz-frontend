@@ -1,14 +1,14 @@
 <template>
     <div class="container d-flex justify-content-center my-5" data-bs-theme="dark">
-        <div class="card shadow p-4" style="width: 40rem;">
+        <div class="card custom-card-bg p-4" style="width: 40rem;">
             <h2 class="text-center mb-4 fw-bold">Quiz Results</h2>
             <div class="alert alert-info text-center" role="alert">
                 Your Score: {{ score.toFixed(2) }}%
             </div>
-            <div v-for="question in questions" :key="question._id" class="card mb-3">
+            <div v-for="question in questions" :key="question._id" class="card custom-card-bg mb-3">
                 <div class="card-body">
                     <h5 class="card-title">{{ question.question_text }}</h5>
-                    <div v-for="(option, index) in question.options" :key="index" class="form-check">
+                    <div v-for="(option, index) in question.options" :key="index" class="form-check">a
                         <input
                             class="form-check-input"
                             type="radio"
@@ -33,7 +33,7 @@
                 </div>
             </div>
             <router-link :to="`/leaderboard/${quiz._id}`" class="btn btn-light w-100 fw-bold">To Leaderboard</router-link>
-            <router-link to="/quizzes" class="btn btn-outline-light w-100 mt-2">Back to Quizzes</router-link>
+            <router-link to="/quizzes" class="btn btn-outline w-100 mt-2">Back to Quizzes</router-link>
         </div>    
     </div>
 </template>

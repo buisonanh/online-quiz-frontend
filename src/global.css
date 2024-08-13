@@ -1,6 +1,6 @@
 /* src/global.css */
 body {
-    background-color: #000000; /* Change this to your desired background color */
+    background-color: #AEB8FE; /* Change this to your desired background color */
     margin: 0;
     padding: 0;
     font-family: 'Inter', sans-serif;
@@ -13,4 +13,79 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+}
+
+.custom-card-bg {
+    background-color: #27187E !important;
+    color: #ffffff !important;
+}
+
+.custom-card-bg-2 {
+    background-color: #AEB8FE !important;
+    color: #ffffff !important;
+}
+
+.custom-answer-btn {
+    background-color: #ee9b00 !important;
+    color: #ffffff !important;
+    width: 50% !important;
+    font-weight: bold !important;
+    margin-right: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.custom-answer-btn:hover {
+    background-color: #ac8900 !important;
+}
+
+.custom-leaderboard-btn {
+    background-color: #F1F2F6 !important;
+    color: #1d1d1d !important;
+    width: 50% !important;
+    font-weight: bold !important;
+}
+
+.custom-leaderboard-btn:hover {
+    background-color: #AEB8FE !important;
+}
+
+
+.custom-search-bar {
+    background-color: #27187E !important;
+    color: #ffffff !important;
+    padding: 10px !important;
+    font-size: 16px !important;
+    border-radius: 5px !important;
+}
+
+.custom-input {
+    background-color: #ffffff !important; 
+    color: #333333 !important;
+    border: 1px solid #005f73 !important;
+    font-size: 16px !important;
+    padding: 10px !important;
+    border-radius: 5px !important;
+}
+
+.custom-submit-btn {
+    background-color: #ee9b00 !important;
+    color: #ffffff !important;
+    width: 100% !important;
+    font-weight: bold !important;
+    margin-right: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.custom-submit-btn:hover {
+    background-color: #ac8900 !important;
+}
+
+.custom-form-group {
+    background-color: #AEB8FE !important;
+    margin-bottom: 10px !important; /* Custom margin bottom */
+}
+
+.custom-dropdown-menu {
+    background-color: #27187E;
+    color: #ffffff;
 }

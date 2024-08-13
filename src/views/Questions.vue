@@ -1,18 +1,18 @@
 <template>
     <div class="container d-flex justify-content-center my-5" data-bs-theme="dark">
-        <div class="card bg-black border-0 shadow p-4" style="width: 40rem;">
-            <div class="card border shadow mb-4" v-for="question in questions" :key="question._id">
+        <div class="card custom-card-bg-2 border-0 shadow p-4" style="width: 40rem;">
+            <div class="card custom-card-bg shadow mb-4" v-for="question in questions" :key="question._id">
                 <div class="card-body position-relative">
                     <h5 class="card-title text-center">{{ question.question_text }}</h5>
                     <div v-for="(option, index) in question.options" :key="index" class="w-100">
-                        <input type="radio" class="btn-check" :name="'option' + question._id" :id="option._id" :value="option.option_text" v-model="answers[question._id]" autocomplete="off">
+                        <input type="radio" class="btn-check custon-check-btn" :name="'option' + question._id" :id="option._id" :value="option.option_text" v-model="answers[question._id]" autocomplete="off">
                         <label class="btn btn-outline-light w-100 my-1" :for="option._id">{{ option.option_text }}</label>
                     </div>
                 </div>
             </div>
             <div v-if="errorMessage" class="alert alert-danger text-center mt-4">{{ errorMessage }}</div>
             <div class="row justify-content-center mt-3">
-                <button class="btn btn-light w-50 fw-bold" @click="submitAttempt">Submit</button>
+                <button class="btn custom-answer-btn w-50 fw-bold" @click="submitAttempt">Submit</button>
             </div>
         </div>
     </div>

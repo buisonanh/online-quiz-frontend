@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav v-if="showNavbar" class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+    <nav v-if="showNavbar" class="navbar navbar-expand-lg custom-navbar-bg border-bottom border-body" data-bs-theme="dark">
       <div class="container-fluid">
         <!-- Brand or Title -->
         <img :src="logoSrc" alt="Logo" class="logo me-2">
@@ -73,7 +73,7 @@
             >
               {{ userName }}
             </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
               <li>
                 <button class="dropdown-item" @click="editProfile">Edit Profile</button>
               </li>
@@ -132,9 +132,13 @@ export default {
 </script>
 
 <style>
+.custom-navbar-bg {
+    background-color: #27187e; 
+}
+
 /* Highlight active nav-link */
 .nav-link.active {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #758bfd;
   border-radius: 4px;
 }
 

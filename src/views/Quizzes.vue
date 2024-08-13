@@ -5,7 +5,7 @@
         <div class="col-12 col-md-8 col-lg-6.5">
             <input 
                 type="text" 
-                class="form-control" 
+                class="form-control custom-search-bar" 
                 v-model="searchKeyword" 
                 placeholder="Search quizzes..." 
                 @input="searchQuizzes"
@@ -14,16 +14,16 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6.5 mb-4" v-for="quiz in quizzes" :key="quiz._id">
-            <div class="card bg-dark shadow">
+            <div class="card custom-card-bg shadow">
                 <div class="card-body position-relative">
                     <h5 class="card-title fw-bold">{{ quiz.title }}</h5>
                     <p class="card-text fw-light">{{ quiz.description }}</p>
                     <p class="card-text text-secondary">
-                        <small class="text-muted-light">Created by: {{ getUserName(quiz.created_by) }}</small>
+                        <small class="text-muted">Created by: {{ getUserName(quiz.created_by) }}</small>
                     </p>
-                    <router-link :to="`/questions/${quiz._id}`" class="btn btn-light me-2 mb-2 fw-bold" style="width: 50%;">Answer</router-link>
+                    <router-link :to="`/questions/${quiz._id}`" class="btn custom-answer-btn">Answer</router-link>
                     <br>
-                    <router-link :to="`/leaderboard/${quiz._id}`" class="btn btn-secondary" style="width: 50%;">
+                    <router-link :to="`/leaderboard/${quiz._id}`" class="btn custom-leaderboard-btn">
                         Leaderboard
                         <i class="bi-bar-chart-fill"></i>
                     </router-link>
@@ -104,4 +104,3 @@ async searchQuizzes() {
 }
 }
 </script>
-
